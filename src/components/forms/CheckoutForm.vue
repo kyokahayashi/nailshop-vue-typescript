@@ -8,18 +8,29 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'submit', payload: {
-    name: string
-    email: string
-    address: string
-    note: string
-  }): void
+  (
+    e: 'submit',
+    payload: {
+      name: string
+      email: string
+      postalCode: string
+      prefecture: string
+      city: string
+      addressLine1: string
+      addressLine2: string
+      note: string
+    },
+  ): void
 }>()
 
 const form = reactive({
   name: '',
   email: '',
-  address: '',
+  postalCode: '',
+  prefecture: '',
+  city: '',
+  addressLine1: '',
+  addressLine2: '',
   note: '',
 })
 
@@ -44,10 +55,61 @@ const handleSubmit = () => {
       <input v-model="form.email" type="email" class="input" required />
     </label>
 
-    <label class="field">
-      <span>配送先住所</span>
-      <textarea v-model="form.address" rows="3" class="textarea" required></textarea>
-    </label>
+    <fieldset class="address-group">
+      <legend>配送先住所</legend>
+      <div class="address-grid">
+        <label class="field">
+          <span>郵便番号</span>
+          <input
+            v-model="form.postalCode"
+            type="text"
+            class="input"
+            placeholder="123-4567"
+            pattern="^\d{3}-?\d{4}$"
+            required
+          />
+        </label>
+        <label class="field">
+          <span>都道府県</span>
+          <input
+            v-model="form.prefecture"
+            type="text"
+            class="input"
+            placeholder="東京都"
+            required
+          />
+        </label>
+        <label class="field field-wide">
+          <span>市区町村</span>
+          <input
+            v-model="form.city"
+            type="text"
+            class="input"
+            placeholder="渋谷区"
+            required
+          />
+        </label>
+        <label class="field field-wide">
+          <span>番地・建物名</span>
+          <input
+            v-model="form.addressLine1"
+            type="text"
+            class="input"
+            placeholder="神南1-19-11 パークウェースクエア2"
+            required
+          />
+        </label>
+        <label class="field field-wide">
+          <span>部屋番号・その他</span>
+          <input
+            v-model="form.addressLine2"
+            type="text"
+            class="input"
+            placeholder="501号室"
+          />
+        </label>
+      </div>
+    </fieldset>
 
     <label class="field">
       <span>備考</span>
@@ -100,6 +162,36 @@ const handleSubmit = () => {
 
   .checkout-form .btn {
     width: 100%;
+  }
+
+  .address-group {
+    border: 1px solid rgba(94, 75, 140, 0.16);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.4rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .address-group legend {
+    font-weight: 600;
+    color: var(--color-secondary);
+    padding: 0 0.4rem;
+  }
+
+  .address-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .field-wide {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    .address-grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

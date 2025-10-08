@@ -87,7 +87,11 @@ const formAmount = computed(() =>
 const handleSubmit = async (payload: {
   name: string
   email: string
-  address: string
+  postalCode: string
+  prefecture: string
+  city: string
+  addressLine1: string
+  addressLine2: string
   note: string
 }) => {
   const lines = summaryItems.value
@@ -101,6 +105,14 @@ const handleSubmit = async (payload: {
 const resetOrder = () => {
   orderStore.reset()
 }
+
+const confirmationAddress = computed(() => {
+  if (!confirmation.value) return ''
+  const { postalCode, prefecture, city, addressLine1, addressLine2 } = confirmation.value.payload
+  const prefectureLine = [prefecture, city].filter(Boolean).join('')
+  const parts = [postalCode ? `〒${postalCode}` : null, prefectureLine, addressLine1, addressLine2]
+  return parts.filter((part) => part && part.trim().length > 0).join(' ')
+})
 </script>
 
 <template>
@@ -167,7 +179,8 @@ const resetOrder = () => {
             <ul class="table-list">
               <li>お名前: {{ confirmation.payload.name }}</li>
               <li>メール: {{ confirmation.payload.email }}</li>
-              <li>配送先: {{ confirmation.payload.address }}</li>
+              <li>郵便番号: {{ confirmation.payload.postalCode }}</li>
+              <li>住所: {{ confirmationAddress }}</li>
               <li>備考: {{ confirmation.payload.note || 'なし' }}</li>
             </ul>
             <div class="confirmation-lines">

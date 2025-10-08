@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { NailProduct } from '@/modules/nails/types'
 
+import { RouterLink } from 'vue-router'
+
 const props = defineProps<{
   product: NailProduct
 }>()
 
 const emit = defineEmits<{
   (e: 'select', id: string): void
-  (e: 'view', id: string): void
   (e: 'add-to-cart', id: string): void
 }>()
-
-const handleView = () => {
-  emit('view', props.product.id)
-}
 
 const handleSelect = () => {
   emit('select', props.product.id)
@@ -22,6 +19,7 @@ const handleSelect = () => {
 const handleAddToCart = () => {
   emit('add-to-cart', props.product.id)
 }
+
 </script>
 
 <template>
@@ -44,9 +42,14 @@ const handleAddToCart = () => {
       <span class="product-price">¥{{ product.price.toLocaleString() }}</span>
       <div class="product-actions">
         <button type="button" class="btn btn-secondary" @click="handleAddToCart">
-          カート
+          カートに追加
         </button>
-        <button type="button" class="btn btn-text" @click="handleView">詳細</button>
+        <RouterLink
+          :to="{ name: 'product-detail', params: { id: product.id } }"
+          class="btn btn-text"
+        >
+          詳細
+        </RouterLink>
         <button type="button" class="btn btn-accent" @click="handleSelect">購入</button>
       </div>
     </div>
@@ -116,6 +119,7 @@ const handleAddToCart = () => {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
 }
 
@@ -136,6 +140,12 @@ const handleAddToCart = () => {
 .product-actions {
   display: flex;
   gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.product-actions .btn {
+  flex: 1 1 120px;
 }
 
 @media (max-width: 640px) {
@@ -146,11 +156,13 @@ const handleAddToCart = () => {
 
   .product-actions {
     width: 100%;
+    gap: 0.6rem;
   }
 
   .product-actions .btn {
-    width: 90%;
+    width: 100%;
     justify-content: center;
+    flex: 1 1 auto;
   }
 }
 </style>

@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useNailStore } from '@/modules/nails/stores/useNailStore'
 import { useCartStore } from '@/modules/cart/stores/useCartStore'
 import ProductCard from '@/components/common/ProductCard.vue'
-import NailDetailDialog from '@/modules/nails/components/NailDetailDialog.vue'
 
 const router = useRouter()
 const nailStore = useNailStore()
 const cartStore = useCartStore()
-const { items, filteredItems, isLoading, selectedProduct } = storeToRefs(nailStore)
-
-const isDetailOpen = ref(false)
+const { items, filteredItems, isLoading } = storeToRefs(nailStore)
 
 onMounted(async () => {
   if (!items.value.length) {
@@ -22,11 +19,6 @@ onMounted(async () => {
 
 const featuredProducts = computed(() => items.value.slice(0, 3))
 const catalogPreview = computed(() => filteredItems.value.slice(0, 6))
-
-const handleView = async (id: string) => {
-  await nailStore.highlightProduct(id)
-  isDetailOpen.value = true
-}
 
 const handleSelect = async (id: string) => {
   await nailStore.highlightProduct(id)
@@ -75,7 +67,6 @@ const handleAddToCart = (id: string) => {
           v-for="product in featuredProducts"
           :key="product.id"
           :product="product"
-          @view="handleView"
           @select="handleSelect"
           @add-to-cart="handleAddToCart"
         />
@@ -100,7 +91,6 @@ const handleAddToCart = (id: string) => {
           v-for="product in catalogPreview"
           :key="product.id"
           :product="product"
-          @view="handleView"
           @select="handleSelect"
           @add-to-cart="handleAddToCart"
         />
@@ -113,8 +103,6 @@ const handleAddToCart = (id: string) => {
       <div v-if="isLoading" class="loading">読み込み中...</div>
     </div>
   </section>
-
-  <NailDetailDialog v-model:open="isDetailOpen" :product="selectedProduct" />
 </template>
 
 <style scoped lang="scss">

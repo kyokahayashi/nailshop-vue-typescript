@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
-import type { NailFilters } from '@/modules/nails/types'
+import type {
+  NailColor,
+  NailDesign,
+  NailFilters,
+  NailSeason,
+} from '@/modules/nails/types'
 
 const props = defineProps<{
   filters: NailFilters
@@ -77,7 +82,7 @@ const handleSearch = () => {
             v-for="color in colors"
             :key="color"
             class="checkbox-label"
-            :class="{ active: state.colors.includes(color) }"
+            :class="{ active: state.colors.includes(color as NailColor) }"
           >
             <input type="checkbox" :value="color" v-model="state.colors" />
             {{ color }}
@@ -92,7 +97,7 @@ const handleSearch = () => {
             v-for="season in seasons"
             :key="season"
             class="checkbox-label"
-            :class="{ active: state.seasons.includes(season) }"
+            :class="{ active: state.seasons.includes(season as NailSeason) }"
           >
             <input type="checkbox" :value="season" v-model="state.seasons" />
             {{ season }}
@@ -107,7 +112,7 @@ const handleSearch = () => {
             v-for="design in designs"
             :key="design"
             class="checkbox-label"
-            :class="{ active: state.designs.includes(design) }"
+            :class="{ active: state.designs.includes(design as NailDesign) }"
           >
             <input type="checkbox" :value="design" v-model="state.designs" />
             {{ design }}
@@ -139,9 +144,7 @@ const handleSearch = () => {
     </div>
 
     <div class="filter-actions">
-      <button type="button" class="btn btn-text" @click="handleReset">
-        リセット
-      </button>
+      <button type="button" class="btn btn-text" @click="handleReset">リセット</button>
       <button type="button" class="btn btn-primary" @click="handleSearch">
         検索する
       </button>

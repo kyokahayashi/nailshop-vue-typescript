@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import ProductCard from '@/components/common/ProductCard.vue'
 import NailFilterPanel from '@/components/filters/NailFilterPanel.vue'
-import NailDetailDialog from '@/modules/nails/components/NailDetailDialog.vue'
 import { useNailStore } from '@/modules/nails/stores/useNailStore'
 import { useCartStore } from '@/modules/cart/stores/useCartStore'
 
@@ -12,10 +11,8 @@ const route = useRoute()
 const router = useRouter()
 const nailStore = useNailStore()
 const cartStore = useCartStore()
-const { filteredItems, filters, colorFacets, seasonFacets, designFacets, isLoading, selectedProduct } =
+const { filteredItems, filters, colorFacets, seasonFacets, designFacets, isLoading } =
   storeToRefs(nailStore)
-
-const isDetailOpen = ref(false)
 
 onMounted(async () => {
   if (!nailStore.items.length) {
@@ -45,11 +42,6 @@ const handleFilters = (nextFilters: typeof filters.value) => {
 const handleReset = () => {
   nailStore.resetFilters()
   router.replace({ query: {} })
-}
-
-const handleView = async (id: string) => {
-  await nailStore.highlightProduct(id)
-  isDetailOpen.value = true
 }
 
 const handleAddToCart = (id: string) => {
@@ -92,7 +84,6 @@ const handleAddToCart = (id: string) => {
             v-for="product in filteredItems"
             :key="product.id"
             :product="product"
-            @view="handleView"
             @add-to-cart="handleAddToCart"
           />
         </div>
@@ -105,8 +96,6 @@ const handleAddToCart = (id: string) => {
       </div>
     </div>
   </section>
-
-  <NailDetailDialog v-model:open="isDetailOpen" :product="selectedProduct" />
 </template>
 
 <style scoped lang="scss">

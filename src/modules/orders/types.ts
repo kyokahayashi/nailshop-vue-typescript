@@ -3,7 +3,11 @@ import type { NailProduct } from '@/modules/nails/types'
 export interface CheckoutPayload {
   name: string
   email: string
-  address: string
+  postalCode: string
+  prefecture: string
+  city: string
+  addressLine1: string
+  addressLine2: string
   note: string
 }
 
