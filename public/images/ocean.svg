@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="wave" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d0f0ff" />
+      <stop offset="100%" stop-color="#76b8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#wave)" />
+  <path d="M0,180 C60,140 120,220 180,180 C240,140 300,220 360,180 L400,260 L0,260 Z" fill="#2a7fbf" opacity="0.35" />
+  <path d="M0,200 C60,160 120,240 180,200 C240,160 300,240 360,200 L400,260 L0,260 Z" fill="#ffffff" opacity="0.4" />
+  <text x="36" y="80" font-family="'Inter', sans-serif" font-size="28" fill="#0f487a">
+    サマーブルー
+  </text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="vitamin" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffcf70" />
+      <stop offset="50%" stop-color="#ffa34d" />
+      <stop offset="100%" stop-color="#ff6c64" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#vitamin)" />
+  <g fill="#ffffffaa">
+    <rect x="70" y="80" width="60" height="120" rx="30" />
+    <rect x="150" y="70" width="60" height="130" rx="30" />
+    <rect x="230" y="90" width="60" height="110" rx="30" />
+    <rect x="310" y="85" width="60" height="115" rx="30" />
+  </g>
+  <text x="40" y="220" font-family="'Inter', sans-serif" font-size="28" fill="#7f1d1d">
+    ビタミンカラー
+  </text>
+</svg>

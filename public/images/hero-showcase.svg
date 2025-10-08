@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe7f1" />
+      <stop offset="100%" stop-color="#e0f7f4" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#c76baf33" />
+    </filter>
+  </defs>
+  <rect width="480" height="320" rx="32" fill="url(#bg)" />
+  <g filter="url(#shadow)">
+    <rect x="80" y="70" width="80" height="180" rx="40" fill="#f6d1ff" />
+    <rect x="160" y="60" width="80" height="200" rx="40" fill="#fdebbc" />
+    <rect x="240" y="65" width="80" height="190" rx="40" fill="#c0f3eb" />
+    <rect x="320" y="75" width="80" height="180" rx="40" fill="#ffcad8" />
+  </g>
+  <text x="40" y="280" font-family="'Inter', sans-serif" font-size="28" fill="#5e4b8c">
+    Nail Atelier Showcase
+  </text>
+</svg>

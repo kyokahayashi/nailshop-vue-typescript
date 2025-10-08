@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="winter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f7fbff" />
+      <stop offset="100%" stop-color="#dbe8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#winter)" />
+  <g stroke="#9db4d9" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M60 80 l20 20 l-20 20 l-20 -20 z" />
+    <path d="M120 120 l24 24 l-24 24 l-24 -24 z" />
+    <path d="M300 90 l18 18 l-18 18 l-18 -18 z" />
+    <path d="M240 140 l26 26 l-26 26 l-26 -26 z" />
+  </g>
+  <text x="40" y="210" font-family="'Inter', sans-serif" font-size="28" fill="#5277aa">
+    ウィンタースノー
+  </text>
+</svg>

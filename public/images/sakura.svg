@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe3ec" />
+      <stop offset="100%" stop-color="#ffc1d8" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#grad)" />
+  <g fill="#f06aa3" opacity="0.6">
+    <circle cx="80" cy="120" r="36" />
+    <circle cx="160" cy="80" r="30" />
+    <circle cx="240" cy="140" r="32" />
+    <circle cx="320" cy="90" r="28" />
+  </g>
+  <text x="40" y="210" font-family="'Inter', sans-serif" font-size="28" fill="#8f2d56">
+    春色フラワー
+  </text>
+</svg>

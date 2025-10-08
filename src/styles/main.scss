@@ -1,0 +1,23 @@
+@use 'vuetify/styles';
+@import '@mdi/font/css/materialdesignicons.css';
+
+:root {
+  font-family: 'Inter', 'Noto Sans JP', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  background-color: #fdf9fb;
+  color: #2b1c33;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fdf9fb 0%, #f5ecf7 100%);
+}
+
+.text-accent {
+  color: #49c5b6 !important;
+}
+
+.bg-primary-soft {
+  background-color: rgba(199, 107, 175, 0.12) !important;
+}

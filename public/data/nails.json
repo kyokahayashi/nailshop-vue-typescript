@@ -1,0 +1,15 @@
+{
+  "nails": [
+    {
+      "id": 1,
+      "title": "春色フラワーデザイン",
+      "description": "桜をモチーフにしたピンク系デザイン",
+      "price": 1800,
+      "color": "ピンク",
+      "season": "春",
+      "design": "フラワー",
+      "image": "/images/sakura.svg"
+    }
+  ],
+  "orders": []
+}

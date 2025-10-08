@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="nude" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5ece4" />
+      <stop offset="100%" stop-color="#e2c9b9" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#nude)" />
+  <rect x="48" y="72" width="80" height="80" rx="40" fill="#f8f0ea" />
+  <rect x="152" y="72" width="80" height="120" rx="40" fill="#f0d9cc" />
+  <rect x="256" y="72" width="80" height="100" rx="40" fill="#f6e7dd" />
+  <text x="48" y="220" font-family="'Inter', sans-serif" font-size="28" fill="#6f4f3c">
+    ヌーディシンプル
+  </text>
+</svg>

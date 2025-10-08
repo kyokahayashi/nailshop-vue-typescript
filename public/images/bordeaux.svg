@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="bordeaux" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4a1025" />
+      <stop offset="100%" stop-color="#a31d4f" />
+    </linearGradient>
+    <pattern id="foil" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="2" fill="#ffd27f" opacity="0.6" />
+      <circle cx="8" cy="8" r="1.5" fill="#ffe9b3" opacity="0.6" />
+    </pattern>
+  </defs>
+  <rect width="400" height="260" rx="28" fill="url(#bordeaux)" />
+  <rect x="48" y="56" width="304" height="148" rx="24" fill="url(#foil)" opacity="0.35" />
+  <text x="48" y="220" font-family="'Inter', sans-serif" font-size="28" fill="#ffd8b0">
+    アンティークボルドー
+  </text>
+</svg>
