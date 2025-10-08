@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import type { NailFilters } from '@/modules/nails/types'
 
 const props = defineProps<{
@@ -15,6 +15,22 @@ const emit = defineEmits<{
 }>()
 
 const state = reactive<NailFilters>({ ...props.filters })
+
+const priceMin = computed<number>({
+  get: () => state.priceRange[0],
+  set: (value) => {
+    const numeric = Number.isFinite(value) ? Number(value) : 0
+    state.priceRange[0] = Math.max(0, Math.min(numeric, state.priceRange[1]))
+  },
+})
+
+const priceMax = computed<number>({
+  get: () => state.priceRange[1],
+  set: (value) => {
+    const numeric = Number.isFinite(value) ? Number(value) : 0
+    state.priceRange[1] = Math.max(numeric, state.priceRange[0])
+  },
+})
 
 watch(
   () => ({ ...props.filters }),
@@ -34,72 +50,170 @@ const handleSearch = () => {
 </script>
 
 <template>
-  <v-card class="rounded-xl">
-    <v-card-title class="text-h6 font-weight-semibold">
-      検索フィルタ
-    </v-card-title>
-    <v-card-text class="d-flex flex-column ga-4">
-      <v-text-field
-        v-model="state.keyword"
-        label="キーワード"
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        hide-details
-        @keyup.enter="handleSearch"
-      />
+  <aside class="filter-card card">
+    <header class="filter-header">
+      <h2>検索フィルタ</h2>
+      <p class="text-muted text-small">
+        キーワードやタグ、価格帯でカタログを絞り込みできます。
+      </p>
+    </header>
 
-      <v-select
-        v-model="state.colors"
-        :items="colors"
-        label="カラー"
-        multiple
-        chips
-        variant="outlined"
-        hide-details
-      />
-
-      <v-select
-        v-model="state.seasons"
-        :items="seasons"
-        label="季節"
-        multiple
-        chips
-        variant="outlined"
-        hide-details
-      />
-
-      <v-select
-        v-model="state.designs"
-        :items="designs"
-        label="デザイン"
-        multiple
-        chips
-        variant="outlined"
-        hide-details
-      />
-
-      <div>
-        <p class="text-body-2 text-medium-emphasis mb-2">
-          価格帯: ¥{{ state.priceRange[0] }} 〜 ¥{{ state.priceRange[1] }}
-        </p>
-        <v-range-slider
-          v-model="state.priceRange"
-          :max="5000"
-          :min="1000"
-          :step="100"
-          thumb-label="always"
-          color="secondary"
+    <div class="stack">
+      <label class="field">
+        <span>キーワード</span>
+        <input
+          v-model="state.keyword"
+          type="search"
+          class="input"
+          placeholder="春色 / ピンク / グラデーション など"
+          @keyup.enter="handleSearch"
         />
+      </label>
+
+      <div class="field">
+        <span>カラー</span>
+        <div class="checkbox-group">
+          <label
+            v-for="color in colors"
+            :key="color"
+            class="checkbox-label"
+            :class="{ active: state.colors.includes(color) }"
+          >
+            <input type="checkbox" :value="color" v-model="state.colors" />
+            {{ color }}
+          </label>
+        </div>
       </div>
-    </v-card-text>
-    <v-card-actions class="justify-end px-4 pb-4">
-      <v-btn variant="text" color="secondary" @click="handleReset">
+
+      <div class="field">
+        <span>季節</span>
+        <div class="checkbox-group">
+          <label
+            v-for="season in seasons"
+            :key="season"
+            class="checkbox-label"
+            :class="{ active: state.seasons.includes(season) }"
+          >
+            <input type="checkbox" :value="season" v-model="state.seasons" />
+            {{ season }}
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <span>デザイン</span>
+        <div class="checkbox-group">
+          <label
+            v-for="design in designs"
+            :key="design"
+            class="checkbox-label"
+            :class="{ active: state.designs.includes(design) }"
+          >
+            <input type="checkbox" :value="design" v-model="state.designs" />
+            {{ design }}
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <span>価格帯</span>
+        <div class="price-inputs">
+          <input
+            type="number"
+            class="number-input"
+            min="0"
+            step="100"
+            v-model.number="priceMin"
+          />
+          <span class="price-separator">〜</span>
+          <input
+            type="number"
+            class="number-input"
+            min="0"
+            step="100"
+            v-model.number="priceMax"
+          />
+        </div>
+        <span class="text-muted text-small">100円単位で指定できます。</span>
+      </div>
+    </div>
+
+    <div class="filter-actions">
+      <button type="button" class="btn btn-text" @click="handleReset">
         リセット
-      </v-btn>
-      <v-btn color="primary" variant="flat" @click="handleSearch">
-        <v-icon start icon="mdi-magnify" />
+      </button>
+      <button type="button" class="btn btn-primary" @click="handleSearch">
         検索する
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      </button>
+    </div>
+  </aside>
 </template>
+
+<style scoped lang="scss">
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.filter-header h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  color: var(--color-secondary);
+}
+
+.checkbox-group {
+  margin-top: 0.4rem;
+}
+
+.checkbox-label {
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.number-input {
+  width: 100%;
+}
+
+.price-separator {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.filter-actions .btn {
+  min-width: 120px;
+}
+
+@media (max-width: 900px) {
+  .filter-card {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-actions {
+    flex-direction: column;
+  }
+
+  .filter-actions .btn {
+    width: 100%;
+  }
+}
+</style>

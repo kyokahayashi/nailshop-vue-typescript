@@ -29,58 +29,77 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <v-form class="d-flex flex-column ga-4" @submit.prevent="handleSubmit">
-    <v-alert variant="tonal" color="secondary">
-      <template #prepend>
-        <v-icon color="secondary">mdi-cart-heart</v-icon>
-      </template>
+  <form class="checkout-form" @submit.prevent="handleSubmit">
+    <div class="alert accent">
       この購入体験はデモ用モックです。入力内容は保存され、実際の決済は行われません。
-    </v-alert>
+    </div>
 
-    <v-text-field
-      v-model="form.name"
-      label="お名前"
-      variant="outlined"
-      required
-    />
-    <v-text-field
-      v-model="form.email"
-      label="メールアドレス"
-      variant="outlined"
-      type="email"
-      required
-    />
-    <v-textarea
-      v-model="form.address"
-      label="配送先住所"
-      variant="outlined"
-      auto-grow
-      required
-    />
-    <v-textarea
-      v-model="form.note"
-      label="備考"
-      rows="2"
-      variant="outlined"
-    />
+    <label class="field">
+      <span>お名前</span>
+      <input v-model="form.name" type="text" class="input" required />
+    </label>
 
-    <v-divider />
+    <label class="field">
+      <span>メールアドレス</span>
+      <input v-model="form.email" type="email" class="input" required />
+    </label>
 
-    <div class="d-flex justify-space-between align-center">
+    <label class="field">
+      <span>配送先住所</span>
+      <textarea v-model="form.address" rows="3" class="textarea" required></textarea>
+    </label>
+
+    <label class="field">
+      <span>備考</span>
+      <textarea v-model="form.note" rows="2" class="textarea"></textarea>
+    </label>
+
+    <hr class="divider" />
+
+    <div class="summary">
       <div>
-        <p class="text-body-2 text-medium-emphasis mb-1">対象商品</p>
-        <p class="text-subtitle-1 font-weight-semibold">
-          {{ productTitle ?? '未選択' }}
-        </p>
+        <p class="text-muted text-small mb-2">対象商品</p>
+        <p class="text-large">{{ productTitle ?? '未選択' }}</p>
       </div>
       <div class="text-right">
-        <p class="text-body-2 text-medium-emphasis mb-1">ご請求予定額</p>
-        <p class="text-h5 font-weight-bold text-secondary">¥{{ amount.toLocaleString() }}</p>
+        <p class="text-muted text-small mb-2">ご請求予定額</p>
+        <p class="total">¥{{ amount.toLocaleString() }}</p>
       </div>
     </div>
 
-    <v-btn color="accent" variant="flat" type="submit" class="text-primary" :disabled="props.disabled">
+    <button type="submit" class="btn btn-accent" :disabled="props.disabled">
       デモ購入を完了する
-    </v-btn>
-  </v-form>
+    </button>
+  </form>
 </template>
+
+<style scoped lang="scss">
+.checkout-form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.total {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+@media (max-width: 640px) {
+  .summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkout-form .btn {
+    width: 100%;
+  }
+}
+</style>

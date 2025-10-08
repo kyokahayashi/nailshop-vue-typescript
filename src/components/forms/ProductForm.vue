@@ -40,61 +40,85 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <v-form @submit.prevent="handleSubmit">
-    <v-text-field v-model="form.title" label="タイトル" variant="outlined" required />
-    <v-textarea
-      v-model="form.description"
-      label="説明"
-      rows="3"
-      auto-grow
-      variant="outlined"
-      required
-    />
-    <v-text-field
-      v-model.number="form.price"
-      type="number"
-      min="1000"
-      step="100"
-      label="価格 (JPY)"
-      variant="outlined"
-      required
-    />
-    <v-select
-      v-model="form.color"
-      :items="colors"
-      label="カラー"
-      variant="outlined"
-      required
-    />
-    <v-select
-      v-model="form.season"
-      :items="seasons"
-      label="季節"
-      variant="outlined"
-      required
-    />
-    <v-select
-      v-model="form.design"
-      :items="designs"
-      label="デザイン"
-      variant="outlined"
-      required
-    />
-    <v-text-field
-      v-model="form.image"
-      label="画像URL / パス"
-      hint="Firebase StorageのURLまたはpublicディレクトリのパス"
-      persistent-hint
-      variant="outlined"
-      required
-    />
-    <div class="d-flex justify-end ga-2 mt-4">
-      <v-btn variant="text" color="secondary" @click="emit('cancel')">
+  <form class="product-form" @submit.prevent="handleSubmit">
+    <label class="field">
+      <span>タイトル</span>
+      <input v-model="form.title" type="text" class="input" required />
+    </label>
+
+    <label class="field">
+      <span>説明</span>
+      <textarea v-model="form.description" rows="4" class="textarea" required></textarea>
+    </label>
+
+    <label class="field">
+      <span>価格 (JPY)</span>
+      <input v-model.number="form.price" type="number" class="number-input" min="0" step="100" required />
+    </label>
+
+    <label class="field">
+      <span>カラー</span>
+      <select v-model="form.color" class="select" required>
+        <option v-for="color in colors" :key="color" :value="color">{{ color }}</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>季節</span>
+      <select v-model="form.season" class="select" required>
+        <option v-for="season in seasons" :key="season" :value="season">{{ season }}</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>デザイン</span>
+      <select v-model="form.design" class="select" required>
+        <option v-for="design in designs" :key="design" :value="design">{{ design }}</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>画像URL / パス</span>
+      <input v-model="form.image" type="text" class="input" required />
+      <small class="text-muted text-small">Firebase Storage のURLまたは public ディレクトリのパスを指定してください。</small>
+    </label>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-text" @click="emit('cancel')">
         キャンセル
-      </v-btn>
-      <v-btn color="primary" variant="flat" type="submit">
+      </button>
+      <button type="submit" class="btn btn-primary">
         {{ submitLabel ?? '保存' }}
-      </v-btn>
+      </button>
     </div>
-  </v-form>
+  </form>
 </template>
+
+<style scoped lang="scss">
+.product-form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+</style>

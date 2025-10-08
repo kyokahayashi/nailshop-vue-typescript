@@ -1,5 +1,5 @@
 /* eslint-env node */
-export default {
+module.exports = {
   root: true,
   env: {
     browser: true,
@@ -10,7 +10,6 @@ export default {
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -19,6 +18,10 @@ export default {
   rules: {
     'vue/multi-word-component-names': 'off',
     'vue/require-default-prop': 'off',
+    'vue/max-attributes-per-line': 'off',
+    'vue/html-self-closing': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/attributes-order': 'off',
   },
   ignorePatterns: [
     'dist',

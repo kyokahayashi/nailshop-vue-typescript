@@ -8,6 +8,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'select', id: string): void
   (e: 'view', id: string): void
+  (e: 'add-to-cart', id: string): void
 }>()
 
 const handleView = () => {
@@ -17,53 +18,139 @@ const handleView = () => {
 const handleSelect = () => {
   emit('select', props.product.id)
 }
+
+const handleAddToCart = () => {
+  emit('add-to-cart', props.product.id)
+}
 </script>
 
 <template>
-  <v-card elevation="2" class="rounded-xl h-100">
-    <v-img :src="product.image" :alt="product.title" height="180" cover class="bg-primary-soft" />
-    <v-card-item class="pb-0">
-      <v-card-title class="text-h6 font-weight-medium line-clamp-2">
-        {{ product.title }}
-      </v-card-title>
-      <v-card-subtitle class="text-body-2 d-flex align-center ga-2">
-        <v-chip size="x-small" variant="flat" color="primary">{{ product.color }}</v-chip>
-        <v-chip size="x-small" variant="outlined" color="secondary">{{ product.season }}</v-chip>
-        <v-chip size="x-small" variant="text" color="secondary">{{ product.design }}</v-chip>
-      </v-card-subtitle>
-    </v-card-item>
-    <v-card-text class="text-body-2 text-medium-emphasis line-clamp-3">
-      {{ product.description }}
-    </v-card-text>
-    <v-divider class="mx-4" />
-    <v-card-actions class="justify-space-between px-4 pb-4">
-      <span class="text-h6 font-weight-semibold text-secondary">
-        ¥{{ product.price.toLocaleString() }}
-      </span>
-      <div class="d-flex ga-2">
-        <v-btn color="secondary" variant="text" @click="handleView">
-          詳細
-        </v-btn>
-        <v-btn color="accent" variant="flat" class="text-primary" @click="handleSelect">
-          チェックアウト
-        </v-btn>
+  <article class="product-card">
+    <div class="product-thumb">
+      <img :src="product.image" :alt="product.title" loading="lazy" />
+    </div>
+    <div class="product-body">
+      <h3 class="product-title">{{ product.title }}</h3>
+      <div class="product-tags">
+        <span class="pill">{{ product.color }}</span>
+        <span class="pill alt">{{ product.season }}</span>
+        <span class="pill soft">{{ product.design }}</span>
       </div>
-    </v-card-actions>
-  </v-card>
+      <p class="product-description">
+        {{ product.description }}
+      </p>
+    </div>
+    <div class="product-footer">
+      <span class="product-price">¥{{ product.price.toLocaleString() }}</span>
+      <div class="product-actions">
+        <button type="button" class="btn btn-secondary" @click="handleAddToCart">
+          カート
+        </button>
+        <button type="button" class="btn btn-text" @click="handleView">詳細</button>
+        <button type="button" class="btn btn-accent" @click="handleSelect">購入</button>
+      </div>
+    </div>
+  </article>
 </template>
 
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+<style scoped lang="scss">
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: 0 18px 42px rgba(94, 75, 140, 0.14);
+  border: 1px solid transparent;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  min-height: 100%;
 }
 
-.line-clamp-3 {
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(94, 75, 140, 0.18);
+  border-color: rgba(94, 75, 140, 0.18);
+}
+
+.product-thumb {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-primary-soft);
+  aspect-ratio: 16 / 9;
+}
+
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-body {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-secondary);
+  line-height: 1.35;
+}
+
+.product-tags {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.product-description {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.55;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.product-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-price {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.product-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .product-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-actions {
+    width: 100%;
+  }
+
+  .product-actions .btn {
+    width: 90%;
+    justify-content: center;
+  }
 }
 </style>

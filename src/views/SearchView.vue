@@ -6,10 +6,12 @@ import ProductCard from '@/components/common/ProductCard.vue'
 import NailFilterPanel from '@/components/filters/NailFilterPanel.vue'
 import NailDetailDialog from '@/modules/nails/components/NailDetailDialog.vue'
 import { useNailStore } from '@/modules/nails/stores/useNailStore'
+import { useCartStore } from '@/modules/cart/stores/useCartStore'
 
 const route = useRoute()
 const router = useRouter()
 const nailStore = useNailStore()
+const cartStore = useCartStore()
 const { filteredItems, filters, colorFacets, seasonFacets, designFacets, isLoading, selectedProduct } =
   storeToRefs(nailStore)
 
@@ -49,12 +51,19 @@ const handleView = async (id: string) => {
   await nailStore.highlightProduct(id)
   isDetailOpen.value = true
 }
+
+const handleAddToCart = (id: string) => {
+  const product = nailStore.items.find((entry) => entry.id === id)
+  if (product) {
+    cartStore.addItem(product)
+  }
+}
 </script>
 
 <template>
-  <v-container class="py-12">
-    <v-row class="ga-6" align="start">
-      <v-col cols="12" md="4">
+  <section class="section">
+    <div class="container search-layout">
+      <aside class="search-filters">
         <NailFilterPanel
           :filters="filters"
           :colors="colorFacets"
@@ -63,43 +72,88 @@ const handleView = async (id: string) => {
           @update:filters="handleFilters"
           @reset="handleReset"
         />
-      </v-col>
-      <v-col cols="12" md="8">
-        <header class="d-flex justify-space-between align-center mb-4 flex-wrap ga-2">
+      </aside>
+
+      <div class="search-results">
+        <header class="results-header">
           <div>
-            <h1 class="text-h4 font-weight-semibold mb-2">ネイルチップ検索</h1>
-            <p class="text-body-2 text-medium-emphasis">
+            <h1>ネイルチップ検索</h1>
+            <p class="text-muted">
               条件に一致する商品 {{ filteredItems.length }} 件
             </p>
           </div>
-          <v-btn color="secondary" variant="text" :loading="isLoading" @click="nailStore.loadProducts">
-            再取得
-          </v-btn>
+          <button type="button" class="btn btn-text" @click="nailStore.loadProducts" :disabled="isLoading">
+            データを再取得
+          </button>
         </header>
 
-        <v-row>
-          <v-col
+        <div class="grid grid-cols-3">
+          <ProductCard
             v-for="product in filteredItems"
             :key="product.id"
-            cols="12"
-            sm="6"
-            lg="4"
-          >
-            <ProductCard :product="product" @view="handleView" />
-          </v-col>
+            :product="product"
+            @view="handleView"
+            @add-to-cart="handleAddToCart"
+          />
+        </div>
 
-          <v-col cols="12" v-if="!filteredItems.length && !isLoading">
-            <v-alert variant="tonal" color="secondary">
-              条件に一致する商品はありません。別のキーワードやフィルタでお試しください。
-            </v-alert>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+        <div v-if="!filteredItems.length && !isLoading" class="alert">
+          条件に一致する商品はありません。別のキーワードやフィルタでお試しください。
+        </div>
 
-  <NailDetailDialog
-    v-model:open="isDetailOpen"
-    :product="selectedProduct"
-  />
+        <div v-if="isLoading" class="loading">読み込み中...</div>
+      </div>
+    </div>
+  </section>
+
+  <NailDetailDialog v-model:open="isDetailOpen" :product="selectedProduct" />
 </template>
+
+<style scoped lang="scss">
+.search-layout {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  align-items: start;
+}
+
+.search-results {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.results-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-secondary);
+}
+
+.loading {
+  text-align: center;
+  color: var(--color-muted);
+}
+
+@media (max-width: 1080px) {
+  .search-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+</style>

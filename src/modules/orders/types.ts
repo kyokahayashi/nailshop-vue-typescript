@@ -1,4 +1,4 @@
-import type { NailProduct } from '../nails/types'
+import type { NailProduct } from '@/modules/nails/types'
 
 export interface CheckoutPayload {
   name: string
@@ -7,9 +7,15 @@ export interface CheckoutPayload {
   note: string
 }
 
+export interface OrderItem {
+  product: NailProduct
+  quantity: number
+  lineTotal: number
+}
+
 export interface Order {
   id: string
-  items: NailProduct[]
+  items: OrderItem[]
   total: number
   payload: CheckoutPayload
   createdAt: string

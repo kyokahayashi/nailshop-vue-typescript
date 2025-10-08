@@ -1,6 +1,6 @@
 # Nail Atelier - ネイルチップECデモ
 
-Vue 3 + TypeScript + Pinia + Vuetifyで構築したポートフォリオ向けネイルチップECサイトのデモアプリです。管理者は作品の登録・編集・削除ができ、購入者は色や季節で検索してデモ購入フローを体験できます。
+Vue 3 + TypeScript + Pinia + SCSS で構築したポートフォリオ向けネイルチップECサイトのデモアプリです。管理者は作品の登録・編集・削除ができ、購入者は色や季節で検索し、カート機能やデモ購入フローを体験できます。
 
 ## セットアップ
 
@@ -22,7 +22,7 @@ npm run dev
 ## 主な技術構成
 
 - **フロントエンド**: Vue 3 (Composition API), TypeScript, Vite
-- **UI**: Vuetify 3, Material Design Icons
+- **UI**: カスタムSCSSデザイン（共通コンポーネント + ユーティリティクラス）
 - **状態管理**: Pinia
 - **データ取得**: Axios（JSON Server / Firebase API想定）
 - **テスト**: Vitest + @vue/test-utils, Cypress（スモークテスト）
