@@ -96,8 +96,13 @@ export const nailService = {
       throw new Error('Item not found')
     }
 
+    const current = localCache[index]
+    if (!current) {
+      throw new Error('Item not found')
+    }
+
     const updated: NailProduct = {
-      ...localCache[index],
+      ...current,
       ...payload,
       updatedAt: new Date().toISOString(),
     }
